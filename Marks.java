@@ -46,17 +46,28 @@ final class Marks {
         int counterTwo;
         int counterThree;
 
+
+        /*
         for (counterOne = 0; counterOne < amountOfStudents; ++counterOne) {
 
-            combinedArray.add(new ArrayList<Integer>());
-            System.out.println(combinedArray + "" + amountOfStudents);
-        }
+            combinedArray.add();
+            System.out.println(combinedArray);
+        }*/
 
         for (counterTwo = 0; counterTwo < amountOfStudents; ++counterTwo) {
 
             for (counterThree = 0; counterThree < amountOfAssignments; ++counterThree) {
 
+                if (counterThree = 0) {
+
+                    combinedArray.get(counterThree).add(array);
+
+                } else {
+
+                combinedArray.add(new ArrayList<Integer>());
                 combinedArray.get(counterTwo).add(counterThree);
+
+                }
 
             }
 
@@ -93,8 +104,8 @@ final class Marks {
     public static void main(final String[] args) {
         final ArrayList<String> listOfStudents = new ArrayList<String>();
         final ArrayList<String> listOfAssingments = new ArrayList<String>();
-        final Path studentFilePath = Paths.get("../", args[0]);
-        final Path assignmentFilePath = Paths.get("../", args[1]);
+        final Path studentFilePath = Paths.get("./", args[0]);
+        final Path assignmentFilePath = Paths.get("./", args[1]);
         final Charset charset = Charset.forName("UTF-8");
 
         try (BufferedReader readerStudent = Files.newBufferedReader(
@@ -120,12 +131,11 @@ final class Marks {
         }
 
         final Integer quantityStudents = listOfStudents.size();
-        System.out.println("here" + listOfAssingments);
         final Integer quantityAssignments = listOfAssingments.size();
 
         final ArrayList<ArrayList<Integer>> mergedArray = mergeArrays(listOfStudents, listOfAssingments, quantityStudents, quantityAssignments);
 
-
+        System.out.println(mergedArray);
 
         /* Normal Distribution numbers
         Random random = new Random();
