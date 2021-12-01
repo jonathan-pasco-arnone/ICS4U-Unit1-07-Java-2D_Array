@@ -86,9 +86,8 @@ final class Marks {
 
         returnString = createString.toString();
         returnString = returnString.replaceAll("\\p{Punct}", "");
-        returnString = returnString.replaceAll(" ", ", ");
 
-        return returnString;
+        return returnString.replaceAll(" ", ", ");
     }
 
     /**
