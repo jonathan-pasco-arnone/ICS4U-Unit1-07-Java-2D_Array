@@ -55,7 +55,7 @@ final class Marks {
         int counterThree;
         int counterFour;
         final StringBuilder createString = new StringBuilder();
-        final String returnString;
+        String returnString;
 
         for (counterOne = 0; counterOne < amountOfStudents; ++counterOne) {
             combinedArray.add(new ArrayList<Object>());
@@ -80,7 +80,7 @@ final class Marks {
         for (counterFour = 0; counterFour < amountOfStudents; ++counterFour) {
 
             createString.append(combinedArray.get(counterFour));
-            createString.append(newLine);
+            createString.append("\n");
 
         }
 
@@ -110,6 +110,8 @@ final class Marks {
         final Path studentFilePath = Paths.get(sameDirectory, args[0]);
         final Path assignmentFilePath = Paths.get(sameDirectory, args[1]);
         final Charset charset = Charset.forName("UTF-8");
+        final StringBuilder createString = new StringBuilder();
+        String assignmentsAsString;
 
         try (BufferedReader readerStudent = Files.newBufferedReader(
                                      studentFilePath, charset)) {
@@ -137,18 +139,24 @@ final class Marks {
         final String mergedArray = mergeArrays(listOfStudents,
             listOfAssingments, quantityStudents, quantityAssignments);
 
-        System.out.println(mergedArray);
+        createString.append(listOfAssingments.toString());
+        assignmentsAsString = createString.toString();
+        assignmentsAsString = assignmentsAsString.replaceAll("\\p{Punct}", "");
+        assignmentsAsString = assignmentsAsString.replaceAll(" ", ", ");
 
         try {
 
             // Writing the new CSV file.
             final FileWriter csvMaker = new FileWriter("./marks.csv");
-            csvMaker.append(mergedArray);
+            csvMaker.append(assignmentsAsString + newline + mergedArray);
 
             csvMaker.close();
         } catch (IOException exception) {
             System.out.println("Failed to output to out.csv");
         }
+
+        // Outputs.
+        System.out.println(assignmentsAsString + newline + mergedArray);
 
         System.out.println("\nDone.");
     }
