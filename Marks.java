@@ -1,4 +1,4 @@
-/**
+/*
 * This program generates marks
 * after reading in 2 text files.
 *
@@ -9,17 +9,12 @@
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -39,20 +34,29 @@ final class Marks {
         throw new IllegalStateException("Cannot be instantiated");
     }
 
-
-    public static String mergeArrays(final ArrayList<String> arrayOfStudents, final ArrayList<String> arrayOfAssignments,
+    /**
+    * This function recieves two arrays, changes them into a 2D array,
+    * and then outputs it as a string (for simplicity and convenience).
+    *
+    * @param arrayOfStudents array of every student name.
+    * @param arrayOfAssignments array of every assignment.
+    * @param amountOfStudents amount of students in the array.
+    * @param amountOfAssignments amount of assignmetns in the array.
+    * @return returns the merged array as a string (for simplicity).
+    */
+    public static String mergeArrays(final ArrayList<String> arrayOfStudents,
+        final ArrayList<String> arrayOfAssignments,
         final int amountOfStudents, final int amountOfAssignments) {
 
-        ArrayList<ArrayList<Object>> combinedArray = new ArrayList<ArrayList<Object>>();
+        final ArrayList<ArrayList<Object>> combinedArray =
+            new ArrayList<ArrayList<Object>>();
         int counterOne;
         int counterTwo;
         int counterThree;
         int counterFour;
-        int counterFive;
-        StringBuilder sb = new StringBuilder();
-        String returnString;        
+        final StringBuilder createString = new StringBuilder();
+        final String returnString;
 
-        
         for (counterOne = 0; counterOne < amountOfStudents; ++counterOne) {
             combinedArray.add(new ArrayList<Object>());
             combinedArray.get(counterOne).add(arrayOfStudents.get(counterOne));
@@ -62,9 +66,9 @@ final class Marks {
 
             for (counterThree = 0; counterThree < amountOfAssignments; ++counterThree) {
 
-                Random random = new Random();
+                final Random random = new Random();
                 // Generates a random number and adds it to the array
-                int mark = (int)Math.floor(random.nextGaussian()*10+75);
+                final int mark = (int) Math.floor(random.nextGaussian() * 10 + 75);
                 combinedArray.get(counterTwo).add(mark);
 
             }
@@ -73,35 +77,16 @@ final class Marks {
 
         for (counterFour = 0; counterFour < amountOfStudents; ++counterFour) {
 
-            sb.append(combinedArray.get(counterFour));
-            sb.append("\n");
+            createString.append(combinedArray.get(counterFour));
+            createString.append(newLine);
 
         }
 
-        returnString = sb.toString();
+        returnString = createString.toString();
         returnString = returnString.replaceAll("\\p{Punct}", "");
         returnString = returnString.replaceAll(" ", ", ");
 
         return returnString;
-    }
-
-
-    /**
-    * The generateMarks() function.
-    *
-    * @param arrayOfStudents the collection of students
-    * @param arrayOfAssignments the collection of assignments
-    * @return the generated marks
-    */
-    public static String[][] generateMarks(final Integer[] arrayOfStudents, 
-                                       final Integer[] arrayOfAssignments) {
-
-        // this is just a place holder!
-        String[][] markArray = { { "", "Ass #1", "Ass #2" }, 
-                           { "Sue", "76%", "88%" },
-                           { "Bob", "46%", "81%" } };
-
-        return markArray;
     }
 
     /**
@@ -112,17 +97,17 @@ final class Marks {
     public static void main(final String[] args) {
 
         // Variables/Constants.
-        final ArrayList<String> listOfStudents = new ArrayList<String>();
-        final ArrayList<String> listOfAssingments = new ArrayList<String>();
-        final Path studentFilePath = Paths.get("./", args[0]);
-        final Path assignmentFilePath = Paths.get("./", args[1]);
-        final Charset charset = Charset.forName("UTF-8");
-
         // For removing specific parts of the array.
         final String frontSquareBrace = "[";
         final String backSquareBrace = "]";
         final String sameDirectory = "./";
-        final String newLine = "\n";
+        final String newline = "\n";
+
+        final ArrayList<String> listOfStudents = new ArrayList<String>();
+        final ArrayList<String> listOfAssingments = new ArrayList<String>();
+        final Path studentFilePath = Paths.get(sameDirectory, args[0]);
+        final Path assignmentFilePath = Paths.get(sameDirectory, args[1]);
+        final Charset charset = Charset.forName("UTF-8");
 
         try (BufferedReader readerStudent = Files.newBufferedReader(
                                      studentFilePath, charset)) {
@@ -147,25 +132,18 @@ final class Marks {
         final Integer quantityStudents = listOfStudents.size();
         final Integer quantityAssignments = listOfAssingments.size();
 
-        final String mergedArray = mergeArrays(listOfStudents, listOfAssingments, quantityStudents, quantityAssignments);
+        final String mergedArray = mergeArrays(listOfStudents,
+            listOfAssingments, quantityStudents, quantityAssignments);
 
         System.out.println(mergedArray);
 
         try {
 
-        // Writing the new CSV file.
-        final FileWriter csvMaker = new FileWriter("./marks.csv");
-        csvMaker.append(mergedArray); /*(", " + Arrays.toString(listOfAssignments)
-                    .replace(frontSquareBrace, "")
-                    .replace(backSquareBrace, "") + newLine);*/
+            // Writing the new CSV file.
+            final FileWriter csvMaker = new FileWriter("./marks.csv");
+            csvMaker.append(mergedArray);
 
-        /*for (ArrayList<ArrayList<Object>> array : mergedArray) {
-                csvMaker.append(Arrays.deepToString(array)
-                        .replace(frontSquareBrace, "")
-                        .replace(backSquareBrace, "") + newLine);
-        }*/
-
-        csvMaker.close();
+            csvMaker.close();
         } catch (IOException exception) {
             System.out.println("Failed to output to out.csv");
         }
