@@ -64,11 +64,13 @@ final class Marks {
 
         for (counterTwo = 0; counterTwo < amountOfStudents; ++counterTwo) {
 
-            for (counterThree = 0; counterThree < amountOfAssignments; ++counterThree) {
+            for (counterThree = 0; counterThree < amountOfAssignments;
+                ++counterThree) {
 
                 final Random random = new Random();
                 // Generates a random number and adds it to the array
-                final int mark = (int) Math.floor(random.nextGaussian() * 10 + 75);
+                final int mark = (int) Math.floor(
+                    random.nextGaussian() * 10 + 75);
                 combinedArray.get(counterTwo).add(mark);
 
             }
